@@ -1,0 +1,25 @@
+{
+  "name"           : "noit-timer",
+  "dependencies"   : {
+                      "express"             : "< 3.0",
+                      "socket.io"           : "",
+                      "underscore"          : "",
+                      "async"               : "",
+                      "request"             : "",
+                      "log-timestamp"       : ""
+                     },
+  "devDependencies": {
+                      "jshint"  : "*",
+                      "grunt": "*",
+                      "grunt-strip": "*",
+                      "grunt-contrib-requirejs": "*",
+                      "grunt-contrib-less": "*",
+                      "grunt-contrib-clean": "*",
+                      "grunt-shell": "*",
+                      "grunt-text-replace": "*"
+                     },
+  "engines"        : { "node" : ">=0.6.0",
+                       "npm"  : ">=1.0"
+                     },
+  "version"        : "0.0.1"
+}

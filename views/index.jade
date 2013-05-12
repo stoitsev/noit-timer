@@ -1,0 +1,36 @@
+!!!5
+html(lang="en")
+	head
+		title CanvasVideoRecording
+		style
+			button {
+				display: block;
+				width: 100px;
+				height: 50px;
+				margin-bottom: 20px;
+				border: 1px solid #000;
+				background: #eee;
+				font-size: 20px;
+			}
+	body
+		h1 Canvas Video Recording
+		button(data-event="start") Start
+		button(data-event="pause") Pause
+		button(data-event="stop") Stop
+
+	script(src='/media/js/jquery.js')
+	script(src='/socket.io/socket.io.js')
+
+	script(type='text/javascript')
+		(function($){
+			var socket = io.connect('http://localhost:8000', {
+				'try multiple transports': false,
+
+			});
+
+			$('button').on('click', function () {
+				var event = $(this).data('event');
+				console.log(event);
+				socket.emit('command', event);
+			});
+		})(jQuery);

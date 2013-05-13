@@ -34,6 +34,8 @@ async.series([
         io.sockets.on('connection', function (socket) {
             socket.on('command', function (msg) {
                 console.log(msg);
+                socket.emit(msg);
+                socket.broadcast.emit(msg);
             });
         });
 

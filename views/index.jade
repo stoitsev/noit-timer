@@ -1,36 +1,131 @@
 !!!5
 html(lang="en")
-	head
-		title NOIT Timer
-		style
-			button {
-				display: block;
-				width: 100px;
-				height: 50px;
-				margin-bottom: 20px;
-				border: 1px solid #000;
-				background: #eee;
-				font-size: 20px;
-			}
-	body
-		h1 Timer Control Panel
-		button(data-event="start") Start
-		button(data-event="pause") Pause
-		button(data-event="stop") Stop
+    head
+        title NOIT Timer
+        style
+            /* jQuery Countdown styles 1.6.2. */
+            .hasCountdown {
+                border: 1px solid #ccc;
+                background-color: #eee;
+            }
+            .countdown_rtl {
+                direction: rtl;
+            }
+            .countdown_holding span {
+                color: #888;
+            }
+            .countdown_row {
+                clear: both;
+                width: 100%;
+                padding: 0px 2px;
+                text-align: center;
+            }
+            .countdown_show1 .countdown_section {
+                width: 98%;
+            }
+            .countdown_show2 .countdown_section {
+                width: 48%;
+            }
+            .countdown_show3 .countdown_section {
+                width: 32.5%;
+            }
+            .countdown_show4 .countdown_section {
+                width: 24.5%;
+            }
+            .countdown_show5 .countdown_section {
+                width: 19.5%;
+            }
+            .countdown_show6 .countdown_section {
+                width: 16.25%;
+            }
+            .countdown_show7 .countdown_section {
+                width: 14%;
+            }
+            .countdown_section {
+                display: block;
+                float: left;
+                font-size: 75%;
+                text-align: center;
+            }
+            .countdown_amount {
+                font-size: 200%;
+            }
+            .countdown_descr {
+                display: block;
+                width: 100%;
+            }
 
-	script(src='/media/js/jquery.js')
-	script(src='/socket.io/socket.io.js')
+            /* APP STYLE */
 
-	script(type='text/javascript')
-		(function($){
-			var socket = io.connect('http://#{serverIP}:8000', {
-				'try multiple transports': false,
-			});
+            button {
+                display: inline;
+                width: 100px;
+                height: 50px;
+                margin-right: 20px;
+                border: 1px solid #000;
+                background: #eee;
+                font-size: 20px;
+            }
 
-			$('button').on('click', function () {
-				var event = $(this).data('event');
-				console.log(event);
-				alert(event);
-				socket.emit('command', event);
-			});
-		})(jQuery);
+            div#clock{
+                display: block;
+                margin-top: 20px;
+            }
+
+            #clock { width: 240px; height: 45px; }
+    body
+        h1 Timer Control Panel
+        button(data-event="start") Start
+        button(data-event="pause") Pause
+        button(data-event="reset") Reset
+        div#clock
+
+    script(src='/media/js/jquery.js')
+    script(src='/media/js/jquery.countdown.js')
+    script(src='/socket.io/socket.io.js')
+
+    script(type='text/javascript')
+        (function($){
+            var socket = io.connect('http://#{serverIP}:8000', {
+                'try multiple transports': false,
+            });
+
+            $('button').on('click', function () {
+                var event = $(this).data('event');
+                console.log(event);
+                socket.emit('command', event);
+            });
+
+            var clock = $('#clock');
+
+            var start = function () {
+                clock.countdown({
+                    until: '+15m', 
+                    format: 'MS', 
+                    compact: true
+                }); 
+            };
+
+            var pause = function () {
+                clock.countdown('pause')
+            };
+
+            var resume = function () {
+                clock.countdown('resume');
+            };
+
+            socket.on('start', function () {
+                resume();
+            });
+
+            socket.on('pause', function () {
+                pause();
+            });
+
+            socket.on('reset', function () {
+                alert('not implemented');
+            });
+
+            start();
+            pause();
+        })(jQuery);

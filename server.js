@@ -24,7 +24,7 @@ async.series([
     },
     function startServer (cb) {
         app.configure(function(){
-          app.use('/media', express.static(__dirname + '/media'));
+            app.use('/media', express.static(__dirname + '/media'));
         });
 
         app.get('/', function(req, res){

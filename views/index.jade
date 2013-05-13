@@ -1,7 +1,7 @@
 !!!5
 html(lang="en")
 	head
-		title CanvasVideoRecording
+		title NOIT Timer
 		style
 			button {
 				display: block;
@@ -13,7 +13,7 @@ html(lang="en")
 				font-size: 20px;
 			}
 	body
-		h1 Canvas Video Recording
+		h1 Timer Control Panel
 		button(data-event="start") Start
 		button(data-event="pause") Pause
 		button(data-event="stop") Stop
@@ -23,14 +23,14 @@ html(lang="en")
 
 	script(type='text/javascript')
 		(function($){
-			var socket = io.connect('http://localhost:8000', {
+			var socket = io.connect('http://192.168.1.3:8000', {
 				'try multiple transports': false,
-
 			});
 
 			$('button').on('click', function () {
 				var event = $(this).data('event');
 				console.log(event);
+				alert(event);
 				socket.emit('command', event);
 			});
 		})(jQuery);

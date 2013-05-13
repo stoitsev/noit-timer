@@ -28,7 +28,7 @@ async.series([
         });
 
         app.get('/', function(req, res){
-            res.render('index.jade', {layout: false});
+            res.render('index.jade', {layout: false, serverIP: serverIP});
         });
 
         io.sockets.on('connection', function (socket) {

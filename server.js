@@ -27,7 +27,7 @@ async.series([
             app.use('/media', express.static(__dirname + '/media'));
         });
 
-        app.get('/', function(req, res){
+        app.get('/panel', function(req, res){
             res.render('index.jade', {layout: false, serverIP: serverIP});
         });
 

@@ -82,6 +82,7 @@ html(lang="en")
 
             #clock { width: 240px; height: 45px; }
     body
+        audio(src="/media/sounds/Alarmclock-mechanical.ogg")#alarm
         - if (controls) {
         h1 Timer Control Panel
         button(data-event="start") Start
@@ -114,7 +115,8 @@ html(lang="en")
                 clock.countdown({
                     until: '+10m', 
                     format: 'MS', 
-                    compact: true
+                    compact: true,
+                    onExpiry: playAlarm
                 }); 
             };
 
@@ -124,6 +126,11 @@ html(lang="en")
 
             var resume = function () {
                 clock.countdown('resume');
+            };
+
+            var playAlarm = function () {
+                var v = document.getElementsByTagName("audio")[0];
+                v.play();
             };
 
             socket.on('start', function () {

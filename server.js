@@ -27,8 +27,20 @@ async.series([
             app.use('/media', express.static(__dirname + '/media'));
         });
 
+        var render = function(res, isControlPanel) {
+            res.render('index.jade', {
+                layout: false,
+                serverIP: serverIP,
+                controls: isControlPanel
+            });
+        };
+
         app.get('/panel', function(req, res){
-            res.render('index.jade', {layout: false, serverIP: serverIP});
+            render(res, true);
+        });
+
+        app.get('/', function (req, res){
+            render(res, false);
         });
 
         io.sockets.on('connection', function (socket) {

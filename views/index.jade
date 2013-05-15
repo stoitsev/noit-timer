@@ -128,9 +128,16 @@ html(lang="en")
                 clock.countdown('resume');
             };
 
+            var restart = function () {
+                clock.countdown('destroy');
+                start();
+                pause();
+            };
+
             var playAlarm = function () {
                 var v = document.getElementsByTagName("audio")[0];
                 v.play();
+                restart();
             };
 
             socket.on('start', function () {
@@ -142,9 +149,7 @@ html(lang="en")
             });
 
             socket.on('reset', function () {
-                clock.countdown('destroy');
-                start();
-                pause();
+                restart();
             });
 
             start();
